@@ -1,9 +1,0 @@
-funcion en new event.html para el reminder dialog
-$scope.displayReminderDialog = function() {
-+        
-+      clearErrors();
-+      
-+      if ($scope.allValid()) {
-+          $rootScope.$emit('openReminderEvent');
-+      }
-+  	}
