@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dinamic fields</title>
+  
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="promiseCtrl.js"></script>
+</head>
+<body ng-app="promiseMain">
+<!--<div ng-controller="promiseCtrl" class="ng-scope">
+     
+
+<div>-->
+<div ng-controller="promiseCtrl">
+	<div >
+			<div style="border:solird 1px black;">
+			 <button ng-click="test()">Click me</button><br>
+			 <input  type="checkbox" ng-model="fail" /> Fail
+			</div>
+	</div>
+
+	<div style="border:solid 1px black;">
+		<button ng-click="test2()">Click me 2</button>
+		<input type="checkbox" ng-model="fail2"/> fail <br>
+		Status: {{status2}}
+
+	</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<body ng-app="mymodule">
+
+
+    <div ng-controller="CalculatorController">
+        Enter a number:
+        <input type="number" ng-model="number" />
+        <button ng-click="doSquare()">X<sup>2</sup></button>
+        <button ng-click="doCube()">X<sup>3</sup></button>
+         
+        <div>Answer: {{answer}}</div>
+         <br>
+         <br>
+         hijo 1
+         <div ng-controller="ChildCtrl1">
+         	 <button ng-click="doGetAnswer()"> Get Answer Child </button>
+         	 R// {{answerChild1}}
+
+         	 <br><br> SUB HIJO
+         	 <div ng-controller="SubChildCtrl1">
+         	 <button ng-click="doGetAnswer()"> Get Answer Sub Child</button>
+         	 R// {{answerSubChild1}}
+
+         	 </div>
+
+         </div>
+    </div>
+<br>
+<br>
+BROTHER CONTROLER
+    <div ng-controller="AnswerController">
+    <button ng-click="doGetAnswer()"> Get Answer Bro</button>
+    		R// {{answerControl}}
+    </div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+<script src="InyeccionServicios.js"></script>
+</body>
+</html>
+
+
+
+
+

@@ -1,0 +1,74 @@
+{% extends "com_bridge_way_editors/empty.html" %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+<div class="form-group {{cssClass}}" {% if cssStyle %}style="{{cssStyle}}"{% endif %}>
+
+<div ng-controller="{{id}}legendController as main">
+
+<div class="legendBox">
+      <div ng-if="orientation==true"> <!-- HORIZONTAL -->
+         <div id="legend">
+           <table style="top:14px;left:5px;;font-size:smaller;color:#545454">
+                 <tbody>
+                   <tr>
+                       <td ng-repeat="elemento in legendArray" class="legendColorBox" style="padding: 10px;">
+                       <div style="border:1px solid #ccc; float: left;">
+                          <div style="width:4px;height:0;border:5px solid {{angular("elemento.color")}} ;overflow:hidden">           
+                          </div>                 
+                       </div>
+                       <div class="legendLabel" style="white-space: nowrap; padding-left: 15px">{{angular("elemento.nameLegend")}}</div>
+                       </td>
+                   </tr>
+                </tbody>
+             </table>
+         </div>
+      </div>
+       <div ng-if="orientation==false"> <!-- VERTICAL -->
+         <div id="legend">
+            <table style="top:14px;right:13px;;font-size:smaller;color:#545454">
+                 <tbody>
+                   <tr ng-repeat="elemento in legendArray" >
+                       <td class="legendColorBox">
+                       <div style="border:1px solid #ccc;padding:1px">
+                          <div style="width:4px;height:0;border:5px solid {{angular("elemento.color")}};overflow:hidden">           
+                          </div>                  
+                       </div>
+                       </td>
+                       <td class="legendLabel">{{angular("elemento.nameLegend")}}</td>
+                   </tr>
+                  
+                 </tbody>
+             </table>
+
+         </div>
+
+      </div>
+  </div>
+
+</div>
+
+       
+</div>
+{% endblock %}
+
+{% block script %}
+angular.module('{{id}}app', ['ngRoute', 'ngResource'])
+.controller('{{id}}legendController', function($scope,$rootScope) {
+
+$scope.orientation=false;
+$scope.legendArray = {{customJson.legend}};
+
+{% if customJson.horinzontal %}
+       $scope.orientation = {{customJson.horinzontal}};
+{% endif %}
+
+
+
+});
+addApp('{{id}}app');
+
+{% endblock %}

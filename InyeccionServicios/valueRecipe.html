@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>value recipe </title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="valueRecipe.js"></script>
+</head>
+<body ng-app="myApp">
+<di ng-controller="DemoController as demo">
+  Client ID: {{demo.clientId}}
+  </di>
+  <div ng-controller="DemoControllerFactory as demo2">
+  	API TOKEN: {{demo2.apiToken}}
+  </div>
+</body>
+</html>

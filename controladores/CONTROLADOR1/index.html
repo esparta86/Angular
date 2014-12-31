@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>....</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="angularJS.js"></script>
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="parentCtrl" class="ng-scope">
+  {{ data }}
+  <p ng-bind="data"></p>
+  <div ng-controller="SiblingOneCtrl as sib1" class="ng-scope">
+      {{ sib1.data }}
+  </div>
+</div>
+
+
+<br>
+CONTROLADORES SIN RELACION ALGUNA
+<br>
+<div ng-controller="FirstCtrl">
+  msg: <input ng-model="person.msg"><br>
+  NAME: <input ng-model="person.name"> <br><br>
+  LASTNAME: <input ng-model="person.lastname"> <br><br>
+    <button ng-click="handleClick();">SEND CTRL2</button>  
+</div>
+
+
+<hr>
+SECOND CONTROLER <br>
+<div ng-controller="SecondCtrl">
+  {{lastname2}}
+
+</div>
+
+
+</body>
+</html>

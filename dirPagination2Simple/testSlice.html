@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to extract the second and the third elements from the array.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+
+    var periodicData = {
+    elements: [
+        {
+            "atomicNumber": 1,
+            "name": "Hydrogen",
+            "atomicWeight": 1.00794,
+            "phase": "Gas",
+            "ionization": 13.5984,
+            "melting": -259.15,
+            "boiling": -252.87
+        },
+        {
+            "atomicNumber": 2,
+            "name": "Helium",
+            "atomicWeight": 4.002602,
+            "phase": "Gas",
+            "ionization": 24.5874,
+            "melting": 0,
+            "boiling": -268.93
+        }]};
+
+   var newArray = [];
+     
+    for (var i = 0; i < periodicData.elements.length; i++)
+    {
+            newArray[i] = periodicData.elements[i].slice();
+    }
+
+        
+
+        
+    var fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+    var citrus = fruits.slice(1, 3);
+
+
+    document.getElementById("demo").innerHTML = citrus;
+}
+</script>
+
+</body>
+</html>

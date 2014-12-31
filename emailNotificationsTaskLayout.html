@@ -1,0 +1,194 @@
+{% extends "layout.html" %}
+{% block head %}
+<style>
+  div.bsi-avatar {
+    position: relative;
+    margin-right: 15px;
+    width: 40px!important;
+    margin: 0 auto;
+    padding-top: 30px;
+    }
+
+
+div.bsi-avatarInformation {
+    position: relative;
+    <!-- width: 102px!important;
+    margin: 0 auto; ->
+    }
+
+  img.avatar {
+   height: 40px;
+   width: 40px;
+   border-radius: 50em;
+   border: 1px solid #c0cadd;
+  }
+  .btn-warning {
+  color: white;
+  background: #FF8600;
+  border: 1px solid #FF8600;
+  }
+
+  .btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  }
+
+  hr.style-three {
+      border: 0;
+      border-bottom: 1px dashed #ccc;
+      background: #999;
+  }
+
+  div.bodyCenter {
+    width: 55%; 
+    float: left; 
+    padding-top: 30px;
+    }
+  div.headNotification{
+    background: #364343;
+    color: white; 
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 70%; 
+    float: left;
+  }
+  div.bodyLeft{
+    width: 15%;
+    float: left;
+  }
+
+  div.message{
+    background: #72665C;
+    color: white;
+    padding-top: 10px; 
+    padding-bottom: 10px;
+    width: 70%;
+    float: left; 
+    margin-top: 15px;
+  }
+
+  p.bodyCenter{
+    padding-left: 20px;
+    line-height: 0.5;
+    font-size: 1em;
+  }
+  p.avatarInformation{
+    -webkit-all;
+    -moz-all;
+  }
+  div.footerNotification{
+    width: 70%; 
+    float: left;
+  }
+ 
+</style>
+{% endblock %}
+
+{% block body %}
+{% set OwnerFirstName ='Christian' %}
+{% set assigneeFullName='Kathy, Roberts' %}
+{% set taskName='Upload Signed Documents into  AcmeCorp' %}
+{% set matterName='Sky Brothers: Hobbs Complaint' %}
+{% set typeOperation= 'update' %}
+{% set sharedTask='True' %}
+{% set avatar='/static/themes/cleverAdmin/assets/img/avatar6.jpg'%}
+{% set employeeInformation='LDO, Acme Corporation33' %}
+
+  <form method="post">
+      <div id="headNotification"  class="headNotification">
+       <p style="padding-left: 20px ;font-size: 13pt;font-weight: bolder;">
+       {% if typeOperation=='assigned' %}
+          A task for you!
+         {% elif typeOperation=='complete' %}
+          A task has been marked complete!
+         {% elif typeOperation=='update' %}
+         A task has been updated!
+         {% elif typeOperation=='delete' %}
+         A Task has been deleted!
+         {% endif %}
+       
+       </p>
+      </div>
+      <div id="bodyCenter" class="bodyCenter">
+             <p class="bodyCenter" style="color:#6D7377 ">
+             <b>Hello </b> {{OwnerFirstName}} ,<br>
+             </p>
+             <p class="bodyCenter" style="color: #7A7A7A;">
+              {{assigneeFullName}} has assigned a task to you using Bridgeway .
+             </p>
+              </p>
+             
+             <br>
+              {% if typeOperation=='delete' or typeOperation=='complete' %}
+                  {% if sharedTask=='True' %}
+                  <p class="bodyCenter" style="color: #7A7A7A;">
+                		(Shared Task)
+                  </p>
+                {% endif %}
+              {% endif %}
+              
+             
+             
+              <p class="bodyCenter" style="color:#6D7377; ">
+             <b>{{taskName}}</b><br>
+             
+             </p>
+             <p class="bodyCenter" style="color: #7A7A7A;">
+               for {{matterName}}
+             </p>
+         
+      </div>
+      <div id="bodyLeft" class="bodyLeft">
+          <div id="avatar" class="bsi-avatar" style="margin-right: 15px;">
+              <img class="avatar" alt="" src="{{avatar}}">
+          </div>
+          <div id="information" class="bsi-avatarInformation">
+              <p class="avatarInformation" > 
+              <b>{{assigneeFullName}}</b><br>
+              {{employeeInformation}}
+              </p>
+          </div>
+        
+      </div>
+      <div id="message" class="message">
+        <p style="padding-left: 20px; font-size: 13pt;">
+         {% if typeOperation=='assigned' %}
+          View  task in the shared tasks folder on your email application.
+         {% elif typeOperation=='complete' %}
+         The Task has been marked complete in the shared task folder on your email application.
+         {% elif typeOperation=='update' %}
+         View changes to the task in the shared tasks folder on your email application.
+         {% elif typeOperation=='delete' %}
+         The task has been removed from the shared tasks folder on your email application.
+         {% endif %}
+         
+         
+         
+        </p>
+      </div>
+      
+      <div id="footerNotification" class="footerNotification">
+        <hr class="style-three">
+        <p style="padding-left: 20px;color: #7A7A7A; ">
+             You are receiving this email because you are associated with this matter in Bridgeway Software.
+             </p>
+      </div>
+      
+  </form>
+{% endblock %}

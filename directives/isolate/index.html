@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="IsolatedApp">
+
+  <head>
+    <link data-require="bootstrap-css@2.3.2" data-semver="2.3.2" rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+    <script data-require="angular.js@1.1.5" data-semver="1.1.5" src="http://code.angularjs.org/1.1.5/angular.min.js"></script>
+    <script data-require="angular-ui-bootstrap@0.3.0" data-semver="0.3.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    
+    </style>
+  </head>
+
+  <body>
+    <h1>AngularJS Isolated Scope</h1>
+    There are <strong>three</strong> ways to interact with isolated scope: via an attribute, binding or expression.
+    <hr>
+
+
+    <h2>With an Attribute</h2>
+    <div ng-controller="AttributeCtrl as ctrl">
+      <div class="well">
+        <p>Communicating with isolated scope via an attribute is uni-directional between parent and child. Change the property in the parent input and watch it change the property in the child directive. What happens when you change the property directly in the child directive?</p>
+        <input class="form-control" type="text" ng-model="ctrl.parentName">
+        <input class="form-control" type="text" ng-model="ctrl.parentName2">
+        <div attribute-box class="well directive" local-name={{ctrl.parentName}} local-name2={{ctrl.parentName2}}></div>
+        
+      </div>
+    </div>
+
+
+
+    <h2>With a Binding</h2>
+    <div ng-controller="BindingCtrl as ctrl">
+      <div class="well">
+        <p>Communicating with isolated scope via a binding is bi-directional from parent to child. Change a property in either child or parent and watch it update in the other.</p>
+        <input class="form-control" type="text" ng-model="ctrl.parentItem.name">
+        <input class="form-control" type="text" ng-model="ctrl.parentItem.description">
+        <div binding-box class="well directive" local-item="ctrl.parentItem"></div>
+      </div>
+    </div>
+
+
+    <h2>With an Expression</h2>
+    <div ng-controller="ExpressionCtrl as ctrl">
+      <div class="well">
+        <p>Communicating with isolated scope via an expression is uni-directional from child to parent. Enter a property in the child directive and click <strong>Send</strong>. Notice that the directive calls whatever parent method you defined on the element.</p>
+        <h4>{{ctrl.hello}}</h4>
+        <h4>{{ctrl.goodbye}}</h4>
+        <hr>
+        <h4>Directive One</h4>
+        <div expression-box class="well directive" local-expression="ctrl.sayHello(message)"></div>
+        <h4>Directive Two</h4>
+        <div expression-box class="well directive" local-expression="ctrl.sayGoodbye(message)"></div>
+      </div>
+    </div>
+    
+  </body>
+
+</html>

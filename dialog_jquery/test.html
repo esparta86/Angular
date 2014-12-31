@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="mymodule">
+	<head>
+		<meta charset="utf-8">
+		  <title>jQuery UI Dialog - Modal message</title>
+		  <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+		  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+		  <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+		  <link rel="stylesheet" href="style.css">
+		  
+		<title></title>
+	</head>
+	<body>
+	
+    <p><a href="javascript:void(null);" onclick="showDialog();">Open</a></p>
+ 
+<div id="dialog-modal" title="Basic modal dialog" style="display: none;"></div>
+ 
+<script type="text/javascript">
+function showDialog()
+{
+    jQuery("#dialog-modal").dialog(
+    {
+        width: 600,
+        height: 400,
+        open: function(event, ui)
+        {
+            var textarea = $('<textarea style="height: 276px;">');
+            $(textarea).redactor({
+                focus: true,
+                maxHeight: 300,
+                initCallback: function()
+                {
+                    this.code.set('<p>Lorem...</p>');
+                }
+            });
+        }
+     });
+}
+</script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    
+
+	</body>
+</html>

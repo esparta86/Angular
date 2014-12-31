@@ -1,0 +1,16 @@
+
+			//retrieve the scope
+			function  getScope(id){
+				var elementScope;
+			    angular.element('.ng-scope').each(function(){
+				    var s = angular.element(this).scope(),
+				    sid = s.$id;
+				    if(sid == id) {
+				        elementScope = this;
+    			        return false; // stop looking at the rest
+ 				      }
+				});
+
+				return elementScope;
+			
+			};

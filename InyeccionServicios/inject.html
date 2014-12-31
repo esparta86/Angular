@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>inject controller </title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="InjectorCtrl.js"></script>
+</head>
+<body ng-app="">
+<div ng-controller="CarController">
+<div ng-controller="BMWController">
+  
+  My name is {{ name }} and I am a {{ type }}
+
+  <button ng-click="clickme()">Click Me</button> 
+
+</div>
+</div>
+</body>
+</html>

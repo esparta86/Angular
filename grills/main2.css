@@ -1,0 +1,28 @@
+.body{
+	background: #504384;
+	width: 100%;
+	height: 100%;
+}
+
+.texto{
+	color: red;
+}
+
+@media(min-width: 768px){
+	body{
+		background: #176448;
+	}
+
+}
+
+@media(min-width: 992px){
+	body{
+		background: #142266;
+	}
+}
+
+@media(min-width: 1200px){}
+     body{
+     	background: #391919;
+     }
+}

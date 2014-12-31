@@ -1,0 +1,134 @@
+{ 
+    "elements": 
+     [
+        {
+            "selected"        : false,
+            "accrualName"     :"Jan 01, 2014 to Mar 31,2014",
+            "legalSection"    : "Litigation",
+            "createdOn"       : "March 15, 2014",
+            "byPerson"        : "Kathy Roberts",
+            "matterName"      : "Acme Corporation",
+            "matterType"      : "Personal Injury",
+            "accruedAmount"   : "$36,728.01",
+            "respondedPercent": "50%",
+            "dueDate"         : "March 15,2014",
+            "action"          : "view, edit , remove"
+            
+
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "Jan 01, 2014 to Mar 31,2014",
+            "legalSection"    : "Risk Managament",
+            "createdOn"       : "March 15, 2014",
+            "byPerson"        : "Kathy Roberts",
+            "matterName"      : "Acme Corporation",
+            "matterType"      : "Collections",
+            "accruedAmount"   : "-$16,892.66",
+            "respondedPercent": "33%",
+            "dueDate"         : "March 15,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "Jan 01, 2014 to Mar 31,2014",
+            "legalSection"    : "Litigation",
+            "createdOn"       : "March 15, 2014",
+            "byPerson"        : "Kathy Roberts",
+            "matterName"      : "Acme Corporation",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "-$26,892.66",
+            "respondedPercent": "25%",
+            "dueDate"         : "March 15,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "Jan 02, 2014 to April 01,2014",
+            "legalSection"    : "Litigation",
+            "createdOn"       : "March 16, 2014",
+            "byPerson"        : "Kathy Roberts",
+            "matterName"      : "Acme Corporation",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "-$26,090.66",
+            "respondedPercent": "25%",
+            "dueDate"         : "March 16,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "Jan 03, 2014 to April 02,2014",
+            "legalSection"    : "Risk Managament",
+            "createdOn"       : "March 17, 2014",
+            "byPerson"        : "Kathy Roberts",
+            "matterName"      : "Acme Corporation",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "-$29,090.66",
+            "respondedPercent": "25%",
+            "dueDate"         : "March 17,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+         {
+            "selected"        : false,
+            "accrualName"     : "Jan 07, 2014 to April 07,2014",
+            "legalSection"    : "Risk Managament 02",
+            "createdOn"       : "March 22, 2014",
+            "byPerson"        : "Karen Cornejo",
+            "matterName"      : "Creativa consultores",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "-$1200",
+            "respondedPercent": "45%",
+            "dueDate"         : "March 22,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "Jan 09, 2014 to April 09,2014",
+            "legalSection"    : "Risk Managament 03",
+            "createdOn"       : "May 01, 2014",
+            "byPerson"        : "Patricia Renderos",
+            "matterName"      : "Creativa consultores",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "-$1200",
+            "respondedPercent": "55%",
+            "dueDate"         : "May 30,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+        {
+            "selected"        : false,
+            "accrualName"     : "February 12, 2014 to April 12,2014",
+            "legalSection"    : "Risk Managament 04",
+            "createdOn"       : "May 11, 2014",
+            "byPerson"        : "Karen Castillo",
+            "matterName"      : "Creativa consultores",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "$1200",
+            "respondedPercent": "75%",
+            "dueDate"         : "June 30,2014",
+            "action"          : "view, edit , remove"
+            
+        },
+         {  
+            "selected"        : false,
+            "accrualName"     : "February 13, 2014 to April 12,2014",
+            "legalSection"    : "Risk Managament 05",
+            "createdOn"       : "May 12, 2014",
+            "byPerson"        : "Karen Castillo",
+            "matterName"      : "Creativa consultores",
+            "matterType"      : "Labor",
+            "accruedAmount"   : "$1201",
+            "respondedPercent": "76%",
+            "dueDate"         : "July 01,2014",
+            "action"          : "view, edit , remove"
+            
+        }
+
+     ]
+
+    }

@@ -1,0 +1,139 @@
+{#
+  list view Widget
+
+  Configurables:
+   
+
+  blocks:
+    - searchTitle  : if the user would like to put a title in the custom bar    
+    - listViewSectionA  : custom html for the  body section A
+    - listViewSectionB : custom html for the  body section B
+    - bodyWidgetsSectionA : loop through all widgets configured under the list view widget
+          with tag "sectionA"
+    - bodyWidgetsSectionB : loop through all widgets configured under the list view widget
+          with tag "sectionB"
+    - listViewControllerScript : custom block, if the user would like to extend the functionality in controller     
+    - listCtrlControllerScript : custom block, if the user would like to extend the functionality in controller
+    - headBarSort : if the user need a select sort by with tag "headBarSort"
+    - headBarSearch : if the user need a select sort by with tag "headBarSearch"
+
+  Modification history:
+    Feature enhancement by name on mm/dd/yyyy:  
+     
+#}
+
+{% extends "layout.html" %}
+{% block body %}
+
+
+<!-- search bar controller -->
+<div ng-controller="{{id}}ListView">
+<div class="row" style="background: none repeat scroll 0 0 #d7dbda; border: 1px solid #bababa; margin-left: -20px; margin-right: -20px;">
+    <div style="margin:0 5px;">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div style="margin: 10px 5px 5px 5px; overflow: hidden;">
+          <div class="row">
+          <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="float: left; margin-top: 7px; ">
+          {% block searchTitle %}  {% endblock %} </h4>
+          </div>
+          <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" >
+             <div class="btn-group" style="float: left; margin-right: 10px;">
+              <button class="btn btn-default " type="button" ng-click="changeView(false)">
+                <span class="glyphicon glyphicon-th-large"></span>
+              </button>
+              <button class="btn btn-default" type="button"  ng-click="changeView(true)">
+                <span class="glyphicon glyphicon-th-list"></span>
+              </button>
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" style="float: left; margin-top: 2px">
+             <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                  {%block headBarSort %}
+                      {{widget_at(0, tags="headBarSort")}}
+                  {% endblock %}
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    {%block headBarSearch %}
+                      {{widget_at(0, tags="headBarSearch")}}
+                    {% endblock %}
+                </div>
+             </div>
+          
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ><!-- content controller -->
+ <div class="row" style="margin-left: -10px; margin-right: -10px; ">
+  <div ng-controller="{{id}}ListCtrl">
+  <div class="tab-content">
+      <div id="sectionA" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="show==false">
+         {% block listViewSectionA %}   {% endblock %}
+           {%block bodyWidgetsSectionA %}
+              {% for w in widgetsByTag('sectionA') %}
+                {{widget_at(w)}}
+              {% endfor %}
+              Section A
+         {% endblock %}
+      </div>
+      <div id="sectionB" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-if="show==true">
+            {% block listViewSectionB %}   {% endblock %}
+           {%block bodyWidgetsSectionB %}
+              {% for w in widgetsByTag('sectionB') %}
+                {{widget_at(w)}}
+              {% endfor %}
+              Section B
+         {% endblock %}
+        </div>
+  </div> 
+  </div>
+ </div>
+</div>
+{% endblock %}
+{% block script %}
+angular.module('{{id}}app', [])
+  .controller('{{id}}ListView', function($rootScope,$scope) {
+
+   $( "#w1_1select" )
+      .change(function () {
+         var str = "";
+           $( "select option:selected" ).each(function() {
+             str += $( this ).text() + " ";
+             $scope.filterSelected=str;
+             $rootScope.$broadcast('UPDATE_SEARCH',$scope.filterSelected);
+           });
+    })
+     .change();
+  
+   $rootScope.changeView=function(state){
+      $rootScope.$broadcast('CHANGE_VIEW',state);
+    };
+   
+    {% block listViewControllerScript %} {% endblock %}
+   
+   
+  })
+  .controller('{{id}}ListCtrl', function($rootScope,$scope){
+     $scope.show=false;
+        
+     $scope.$on('UPDATE_SEARCH', function(event,filterSelected) {
+       $scope.filterSelected=filterSelected;
+     });
+      
+      
+     $scope.$on('CHANGE_VIEW', function(event,state){
+       $scope.show=state;
+     });
+     
+     
+     {% block listCtrlControllerScript %} {% endblock %}
+    
+  });
+
+addApp('{{id}}app');
+
+{% endblock %}

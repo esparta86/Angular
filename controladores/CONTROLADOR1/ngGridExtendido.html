@@ -1,0 +1,220 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<style type='text/css'>
+.gridStyle {
+      width: 100%; 
+      height:200px;
+						}
+            
+    .labelcheck {
+           display: inline-block;
+           margin-bottom: 5px;
+           font-weight: normal;
+           }
+           
+           
+           .gridWidthWrapper {
+    width: 100%;
+    height:100%;
+    overflow: hidden;
+}
+    
+
+</style>
+{% endblock %}
+
+{% block body %} 
+  <div ng-controller="{{id}}GridCtrl as main">
+    <div class="gridWidthWrapper">
+       <div class="gridStyle" ng-grid="gridOptions"> </div> 
+    </div>
+  </div>  
+{% endblock %}
+
+{% block js %}
+com_bridge_way_grid/ng-grid.js
+{% endblock %}
+
+{% block less %}
+com_bridge_way_grid/ng-grid.css
+{% endblock %}
+
+{% block script %}
+angular.module('{{id}}app', ['ngRoute', 'ngResource','ngGrid'])
+{% if dataset and dataset[0] %}
+.value('{{id}}dataUrl', '{{dataset[0]._url}}/:recordId')
+
+.factory('{{id}}Records', function($resource, {{id}}dataUrl) {
+	return $resource({{id}}dataUrl);
+})
+
+.controller('{{id}}GridCtrl', function($scope, {{id}}Records, $timeout) {
+
+  $scope.records = {{id}}Records.query();
+  $scope.dataSelected=new Array();
+  var columns = {{customJson.value}};
+  var checkbox,checkLabel,fieldcolumncheckbox;
+  var showGroupColumn=false;//Show the dropzone for drag and drop grouping
+  var SelectionCheckbox=false;
+  {% if customJson.checkBox %}
+       checkbox = {{customJson.checkBox}};
+  {% endif %}
+
+  {% if customJson.checkLabel %}
+       checkLabel = {{customJson.checkLabel}};
+  {% endif %}
+      
+  {% if customJson.showGroup %}
+       showGroupColumn={{customJson.showGroup}};
+  {% endif %}
+  
+   {% if customJson.fieldCheckBox %}
+       fieldcolumncheckbox={{customJson.fieldCheckBox}};
+  {% endif %}
+  
+   {% if customJson.SelectionCheckbox %}
+       SelectionCheckbox ={{customJson.SelectionCheckbox}};
+  {% endif %}
+  
+  
+  
+
+  if(!(typeof checkbox === 'undefined')){
+    if(checkbox){
+      columns.push({
+           "displayName":fieldcolumncheckbox,
+           
+           "cellTemplate":"<input id='CheckBox' name='CheckBox' type='checkbox' ng-click='getSelection(row.entity)' /> <label class='labelcheck' for='"+checkLabel+"'>"+checkLabel+"</label>"
+          });
+       }
+   };
+
+  $scope.gridOptions = { 
+    data: 'records',
+    showGroupPanel: showGroupColumn,
+    multiSelect: true,
+    enableColumnResize: true,
+    selectWithCheckboxOnly: true,
+    columnDefs:columns,
+    showSelectionCheckbox:SelectionCheckbox
+    
+  };
+  
+  $scope.getSelection = function(deliveryLocation) {
+    $scope.idSelected = deliveryLocation._id;
+    var found=false;
+    var index;
+    for(var i=0;i<$scope.dataSelected.length;i++){
+      var tempA=$scope.dataSelected[i];
+      if(tempA[0]==$scope.idSelected){
+        found=true;
+        index = i;
+      }
+    }
+    
+    if(!found){
+      var tempArray=new Array();
+      tempArray[0]=$scope.idSelected;
+      tempArray[1]=deliveryLocation;
+      $scope.dataSelected.push(tempArray);
+     }else
+       $scope.dataSelected.splice(index,1);
+
+
+  };
+  
+});
+{% else %}
+.controller('{{id}}GridCtrl', function($rootScope, $scope,$timeout) {
+  
+    
+$rootScope.data = [{Name: "Moroni", Response: "Responded"},
+                     {Name: "Tiancum", Response: "No Responded" },
+                     {Name: "Jacob", Response: "Responded"},
+                     {Name: "Nephi", Response: "Responded"},
+                     {Name: "Enos", Response: "Responded"}];
+
+
+
+   $scope.records= $rootScope.data;
+
+  $scope.dataSelected=new Array();
+  var columns = {{customJson.value}};
+  var checkbox,checkLabel,fieldcolumncheckbox;
+  var showGroupColumn=false;//Show the dropzone for drag and drop grouping
+  var SelectionCheckbox=false;
+  {% if customJson.checkBox %}
+       checkbox = {{customJson.checkBox}};
+  {% endif %}
+
+  {% if customJson.checkLabel %}
+       checkLabel = {{customJson.checkLabel}};
+  {% endif %}
+      
+  {% if customJson.showGroup %}
+       showGroupColumn={{customJson.showGroup}};
+  {% endif %}
+  
+   {% if customJson.fieldCheckBox %}
+       fieldcolumncheckbox={{customJson.fieldCheckBox}};
+  {% endif %}
+  
+   {% if customJson.SelectionCheckbox %}
+       SelectionCheckbox ={{customJson.SelectionCheckbox}};
+  {% endif %}
+  
+  
+  
+
+  if(!(typeof checkbox === 'undefined')){
+    if(checkbox){
+      columns.push({
+           "displayName":fieldcolumncheckbox,
+           
+           "cellTemplate":"<input id='CheckBox' name='CheckBox' type='checkbox' ng-click='getSelection(row.entity)' /> <label class='labelcheck' for='"+checkLabel+"'>"+checkLabel+"</label>"
+          });
+       }
+   };
+
+  $scope.gridOptions = { 
+    data: 'records',
+    showGroupPanel: showGroupColumn,
+    multiSelect: true,
+    enableColumnResize: true,
+    selectWithCheckboxOnly: true,
+    columnDefs:columns,
+    showSelectionCheckbox:SelectionCheckbox
+    
+  };
+  
+  $scope.getSelection = function(deliveryLocation) {
+    $scope.idSelected = deliveryLocation._id;
+    var found=false;
+    var index;
+    for(var i=0;i<$scope.dataSelected.length;i++){
+      var tempA=$scope.dataSelected[i];
+      if(tempA[0]==$scope.idSelected){
+        found=true;
+        index = i;
+      }
+    }
+    
+    if(!found){
+      var tempArray=new Array();
+      tempArray[0]=$scope.idSelected;
+      tempArray[1]=deliveryLocation;
+      $scope.dataSelected.push(tempArray);
+     }else
+       $scope.dataSelected.splice(index,1);
+
+
+  };     
+ 
+        
+        
+});
+{% endif %}
+addApp('{{id}}app');
+
+{% endblock %}

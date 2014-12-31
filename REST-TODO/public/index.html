@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+<head>
+	<!-- META -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+	<title>Node/Angular Todo App</title>
+
+	<!-- SCROLLS -->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<link rel="stylesheet" href="js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
+
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css">
+
+	<!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />-->
+	
+	
+	<style>
+		html 					{ overflow-y:scroll; }
+		body 					{ padding-top:50px; }
+		#todo-list 				{ margin-bottom:30px; }
+		#todo-form 	 			{ margin-bottom:50px; }
+
+		.selected {
+  		background-color: grey;
+  		color:white;
+	     }
+	</style>
+
+	<!-- SPELLS -->
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<!--<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	 load our main application -->
+	 <!-- load our main application -->
+
+
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+	
+	<!--<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>-->
+	<!--<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>-->
+
+	<script src="js/controllers/main.js"></script> <!-- load up our controller -->
+	<script type="text/javascript" src="js/services/dialog-services.js"></script>
+	<script src="js/services/todos.js"></script> <!-- load our todo service -->
+
+	<script src="js/core.js"></script> <!-- load our main application -->
+	<script src="js/date.js"></script> <!-- load our main application -->
+	<script src="js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script> 
+
+	<!-- dialog -->
+	<script src="https://code.jquery.com/ui/1.11.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css" />
+
+
+	
+	
+
+    <script type="text/javascript">
+  $(function() {
+    $('#datetimepicker1').datetimepicker();
+    $('#datetimepicker2').datetimepicker();
+
+     
+  });
+
+
+
+</script>
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+
+	<div class="container">
+	<!-- HEADER AND TODO COUNT -->
+		<div class="text-center">
+			<h2> My personal tasks : <span class="label label-info" style="font-size: 28px;padding: 11px 11px;">{{ todos.length }}</span></h2>
+		</div>
+
+		<!-- FORM TO CREATE TODOS -->
+		<div id="todo-form" class="row">
+			<div class="col-sm-10">
+				<form >
+				   <div class="row">
+					<div class="col-sm-2">
+						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
+						<label for="nameTask"> Name task :</label>
+						<input type="text" class="form-control input-lg text-center" placeholder="Name task" ng-model="formData.text"  style="height: 30px;">
+						
+					</div>
+					<div class="col-sm-2">
+					     <label for="nameTask"> Priority :</label>
+						<input type="text" class="form-control input-lg text-center" placeholder="priority" ng-model="formData.priority" style="height: 30px;">
+					</div>
+					<div class="col-sm-3">
+					   <div id="datetimepicker1" class="input-append date">
+					        <label for="nameTask"> Start Date :</label>
+						    <input data-format="MM/dd/yyyy hh:mm:ss" class="form-control input-lg text-center" type="text" style="height: 30px;"  ng-model="formData.startDate"></input>
+						    <span class="add-on">
+						      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						      </i>
+						    </span>
+				         </div>
+					</div>
+
+
+					<div class="col-sm-3">
+					   <div id="datetimepicker2" class="input-append date">
+					        <label for="nameTask"> Finish Date :</label>
+						    <input data-format="MM/dd/yyyy hh:mm:ss" class="form-control input-lg text-center" type="text" style="height: 30px;" ng-model="formData.endDate"> </input>
+						    <span class="add-on">
+						      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+						      </i>
+						    </span>
+						</div>
+						
+					</div>
+
+					
+
+					
+					<!-- createToDo() WILL CREATE NEW TODOS -->
+				   </div>
+				    <div class="row">
+				    <div class="col-sm-2">
+					  <button type="submit" class="btn btn-primary" ng-click="createTodo()">Add Task</button>
+					</div>
+				     <div class="col-sm-2">
+				       <button  class="btn btn-danger" ng-click="createTodo()">Clear Form</button>
+				     </div>
+
+				     <div class="col-sm-2">
+				       <button  class="btn btn-warning" ng-click="createTodo()">Update</button>
+				     </div>
+				     
+				   </div>
+
+
+				</form>
+			</div>
+		</div>
+
+
+		<!-- TODO LIST -->
+		<div id="todo-list" class="row">
+			<div class="col-lg-12 col-sm-6 col-md-6">
+	
+				<!-- LOOP OVER THE TODOS IN $scope.todos -->
+				<!-- NEW DESIGN-->
+				
+
+				<table class="table">
+				<tr>
+				  <th>  TASK </th>
+				  <th>  PRIORITY</th>
+				  <th>  START DATE</th>
+				  <th>  END DATE </th>
+				  <th>   </th>
+				</tr>
+				   <tr ng-repeat="todo in todos" ng-click="setSelected(todo._id)" ng-class="{selected:todo._id===idSelectedVote}">
+				   	  <td>
+				   	  {{ todo.text }}
+				   	  </td>
+				   	  <td>
+				   	  	priority : <span ng-bind="todo.priority"></span>
+				   	  </td>
+				   	  <td>
+				   	  {{todo.startDate | date:"MM/dd/yyyy 'at' h:mma"}}
+				   	  </td>
+				   	  <td>
+				   	  	{{todo.endDate | date:"MM/dd/yyyy  'at' h:mma"}}
+				   	  </td>
+				   	  <td>
+				   	  <button type="button" class="btn btn-danger"  ng-click="loadWarn(todo._id)" >Delete</button>
+				   	  </td>
+				   </tr>
+
+
+                </table>
+			
+
+				<p class="text-center" ng-show="loading">
+					<span class="fa fa-spinner fa-spin fa-3x"></span>
+				</p>
+
+			</div>
+		</div>
+
+		
+		<div class="text-center text-muted">
+			
+		</div>
+
+
+	</div>
+
+
+	<!-- ********************************* TEMPLATES ************************* -->
+<script type="text/ng-template" id="templateForDelete.html">
+	<div id="containerTemplate">
+	   <div class="row">
+	       <div class="col-md-12">
+	        <span> Are you sure to delete this task ? </span>
+	       </div>
+	       <div class="col-md-6">
+	       	 
+	       	 <button type="button" class="btn btn-primary" ng-click="cancelClick()" >Cancel</button>   
+	       </div>
+	       <div class="col-md-6">
+	  		  
+	  		  <button type="button" class="btn btn-warning" ng-click="confirmClick()">Confirm</button>  
+	       </div>
+	   </div>
+	 
+	  
+      
+	</div>
+</script>
+
+	<!--********************************************************************** -->
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dinamic fields</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="watchCtrl.js"></script>
+</head>
+<body ng-app="Observador">
+
+<div ng-controller="WatchCtrl" class="ng-scope">
+      
+      <input ng-model="first">
+      <select ng-model="operators.value" ng-options="v for v in operators.values">
+       <option title="---Select Operator---"value="">---Select operator---</option> 
+      </select>
+
+      <input ng-model="second">
+      <div>Resultado : {{resultado | currency}}
+      
+
+<div>
+
+</body>
+</html>

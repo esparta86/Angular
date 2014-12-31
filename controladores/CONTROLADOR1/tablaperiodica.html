@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>....</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="tablaperiodica.js"></script>
+  <stylesheet>
+  <style>
+        .tableOdd {
+            background-color: green;
+        }
+        .tableEven {
+            background-color: gold;
+        }
+    </style>
+  </stylesheet>
+</head>
+<body ng-app="chemistryApp">
+
+<div ng-controller="chemCtrl" class="ng-scope">
+Filtrar por :<input type="text" data-ng-model="elementName"/>
+
+<table class="table table-striped table-bordered table-hover table-condensed">
+<tr><th>Name</th><th>Atomic Number</th><th>Weight</th><th>Phase</th><th>Ionization Energy</th><th>Melting Point</th><th>Boiling</th>
+</tr
+  <!--<li data-ng-repeat="element in periodicData.elements|limitTo:5">{{element.name}} </li>-->
+  
+  <tr data-ng-repeat="element in periodicData.elements | filter:{name:elementName}"  data-ng-class="{tableEven: !($index%2), tableOdd: ($index%2)}">{{element.name}} >
+    <td>
+    <a href="http://en.wikipedia.org/wiki/{{element.name}}" Title="Wikipedia article on {{element.name}}" target="_top">{{element.name}}</a></td>
+
+                <td>{{element.atomicNumber}}</td>
+                <td>{{element.atomicWeight}}</td>
+                <td>{{element.phase}}</td>
+                <td>{{element.ionization}}</td>
+                <td>{{element.melting}}</td>
+                <td>{{element.boiling}}</td>
+  </tr>
+
+</table>
+</div>
+
+
+</body>
+</html>

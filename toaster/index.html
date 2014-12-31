@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js" ></script>
+<script src="http://code.angularjs.org/1.2.0/angular-animate.min.js" ></script>
+
+    
+
+        <link href="toasterJS.css" rel="stylesheet" />
+        <script src="toasterJS.js"></script>
+        <script src="controller.js"></script>
+
+</head>
+    <body ng-app="main" style="padding-left: 90px;">
+        
+       <toaster-container toaster-options="{'time-out': 1110000,'position-class':'toast-top-left','closeButton': 'true'}"></toaster-container>
+       <div>
+       <center>
+            <div ng-controller="myController" ng-init="init(2)">
+                <button class="btn btn-primary" ng-click="pop()">Show toasts</button><br />
+                <button class="btn btn-primary" ng-click="pop()">Show toasts</button><br />
+                <button class="btn btn-primary" ng-click="pop()">Show toasts</button><br />
+                 <button class="btn btn-danger" style="margin: 10px 0 0 150px;" ng-click="clear()">Clear toasts</button>
+      </center>
+
+
+
+
+
+            </div>
+        </div>
+
+        <!--  <script type="text/ng-template" id="toasterBodyTmpl.html">
+          <p>Render a default template!</p>
+        </script>
+        
+        <script type="text/ng-template" id="myTemplate.html">
+          <div class="row">
+                <div class="col-xs-12">
+                        <div> <b>Invitation update sent to :</b>
+                        </div>
+                </div
+                <div class="col-xs-12">
+                somedomain@gmail.com, somedomain@gmail.com
+                </div>
+          </div>
+        </script> -->
+
+
+
+
+
+    </body>
+        
+</html>

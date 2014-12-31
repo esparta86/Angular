@@ -1,0 +1,52 @@
+<!doctype html>
+<html ng-app="myApp">
+<head>
+    <script src="http://code.angularjs.org/1.1.2/angular.min.js"></script>
+    <script type="text/javascript">
+    function Ctrl($scope,$rootScope) {
+        var initial = {text: 'initial value',
+                       text2: 'initial2 value'};
+        
+
+        $scope.myModel = angular.copy(initial);
+        $scope.revert = function() {
+            $scope.myModel = angular.copy(initial);
+            $scope.myForm.$setPristine();
+        }
+
+
+        
+    }
+
+
+    angular.module("myApp", [])
+        .directive('confirmOnExit', function() {
+        return {
+            link: function($scope, elem, attrs) {
+                window.onbeforeunload = function(){
+                    if ($scope.myForm.$dirty) {
+                        return "1111 The form is dirty, do you want to stay on the page?";
+                    }
+                }
+            }
+        };
+    });
+    </script>
+</head>
+<body>
+    <form name="myForm" ng-controller="Ctrl" confirm-on-exit>
+        myModel.text: <input name="input" ng-model="myModel.text"><br><br>
+        MyModel.text2 <input name="input" ng-model="myModel.text2">
+
+        <p>myModel.text = {{myModel.text}}</p>
+        <p>myModel.text2 = {{myModel.text2}}</p>
+
+        <p>$pristine = {{myForm.$pristine}}</p>
+        <p>$dirty = {{myForm.$dirty}}</p>
+        <button ng-click="revert()">Set pristine</button>
+        <a href="http://www.w3schools.com">Visit W3Schools.com!</a>
+    </form>
+
+    <a href="http://www.w3schools.com">Visit W3Schools.com2222!</a>
+</body>
+</html>

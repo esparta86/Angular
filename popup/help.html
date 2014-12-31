@@ -1,0 +1,204 @@
+{#
+  help  Widget
+
+  Configurables:
+  Important : in order to display the help popup correctly 
+  you have to add the name property of page where you would like to add the widget
+  if you do not add the name property, the popup does not display.
+
+  customJson : you can put the title of popup and   
+  the keywords which the query retrieve of dataset
+  Example : {title : "New Events Topics Help", "keywords": ["New Event","update event"]}  
+  
+  Modification history:
+    Feature enhancement by name on mm/dd/yyyy:  
+       03/12/2014 
+     
+#}
+
+{% extends "layout.html" %}
+
+{% block head %}
+<style type='text/css'>
+
+            
+.help-header{{id}} {
+  background-color: #384042;
+  height: 50px;
+}
+
+.ui-widget-header {
+/* border: 1px solid #322323; */
+/* background: #120E0E url(../../img/ui-bg_highlight-soft_50_dddddd_1x100.png) 100% 100% repeat-x; */
+color: rgba(255, 255, 255, 1);
+font-weight: bold;
+background: #384042;
+}
+
+.headerTitleHelp{{id}} {
+padding-bottom: 10px; 
+padding-top: 10px
+
+}
+
+.panel-heading{{id}} {
+background-color: #f5f5f5;
+padding: 10px 15px;
+border-color: #ddd;
+}
+
+
+.collapse-content{{id}} {
+height: 200px;
+overflow: auto;
+margin-right: 0px;
+margin-left: 0px;
+color:#7A7A7A; 
+padding-top: 10px;
+padding-bottom: 10px
+}
+
+.dialog-button-help-close {
+background: none repeat scroll 0% 0% transparent;
+border-color: transparent;
+}
+  
+
+</style>
+{% endblock %}
+
+{% block body %} 
+
+{% endblock %}
+
+{% block js %}
+ js/angular/dialog-service.js
+{% endblock %}
+
+{% block less %}
+ css/ng-grid.css
+{% endblock %}
+
+{% block script %}
+var module= angular.module('{{id}}app', ['ngRoute', 'ngResource','dialogService']);
+module.value('{{id}}dataUrl', '{{dataset[0]._url}}/:recordId');
+module.factory('{{id}}Records', function($resource, {{id}}dataUrl) {
+     return $resource('{{dataset[0]._url}}/:recordId');
+});
+module.factory('{{id}}RecordsHelp', function( {{id}}Records,$log) {
+   var dataHelp;
+   return {
+      getData: function(){
+       return dataHelp;
+      },
+      executeQuery : function (paramsKey){
+       {{id}}Records.query({query:JSON.stringify({$in: {keywords: paramsKey }})}, function(data){
+         dataHelp=data;
+         console.log(dataHelp);
+          
+       });
+      
+      }
+    
+    };
+});
+
+
+module.controller('{{id}}helpCtrl',['$scope','{{id}}RecordsHelp','$timeout','dialogService','$log','$rootScope','$sce',
+   function($scope, {{id}}RecordsHelp, $timeout,dialogService,$log,$rootScope,$sce){
+    
+     $scope.keywords = {{json(customJson.keywords)}};
+     $scope.titleDialog={{json(customJson.title)}};
+     $scope.nameEvent;
+     {% if _parent['name'] %}
+      $scope.nameEvent ={{json(_parent['name'])}};
+     {% endif %}
+     
+    if(typeof $scope.nameEvent != 'undefined'){
+          $rootScope.$on($scope.nameEvent.replace(/ /g,'').concat("HelpPopup"), function(event, args) {
+              {{id}}RecordsHelp.executeQuery($scope.keywords);
+                 
+           });
+      }
+
+
+     $scope.$watch(function(){return {{id}}RecordsHelp.getData();} , function( newValue ) {
+        if(typeof {{id}}RecordsHelp.getData() != 'undefined')
+        {
+                  
+         $scope.contentCollapsible =[];
+                  angular.forEach({{id}}RecordsHelp.getData(), function(value, key) {
+                       var item = {
+                                  "content": $sce.trustAsHtml(value.content),
+                                  "key":value.key,
+                                  "open":false,
+                                  "order":value.order
+                            };
+                      $scope.contentCollapsible.push(item);
+                  });
+
+         $rootScope.helpPopup("helpTemplate.html", $scope.contentCollapsible,$scope.titleDialog,$scope);
+        }
+
+
+     });
+
+     
+
+     $scope.changeIcon= function(element){
+       if($scope.contentCollapsible[element].open){//by default is false
+         $scope.contentCollapsible[element].open=false;
+         angular.element("#"+element+"IconCollapse").removeClass('fa fa-sort-asc').addClass('fa fa-sort-desc');
+         
+        }else{
+         angular.element("#"+element+"IconCollapse").removeClass('fa fa-sort-desc').addClass('fa fa-sort-asc');
+          $scope.contentCollapsible[element].open=true;
+         }
+
+     };
+
+ }]);
+
+  
+
+
+addApp('{{id}}app');
+
+{% endblock %}
+
+{% block footer %}
+<div id="{{id}}help"  ng-controller="{{id}}helpCtrl as main">
+  
+<script type="text/ng-template" id="helpTemplate.html">
+
+  <div  class="row help-header" title= " ">
+     
+      <div id="headerTitleHelp" class="headerTitleHelp{{id}} col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+      <i class="fa fa-info-circle" style="font-size:150%;color:#7A7A7A;"></i>
+      <span style="vertical-align:top; color:#a599a5;" class="ng-binding">Select a topic to expand the contents; select the topic again to collapse. For more help, go to the  </span>
+      <span style="color:#0996AE;"> LEGALsphere Help Portal.</span>
+      </div>
+
+
+     <div ng-repeat="element in model.dataHelp | orderBy:'order':false"> 
+      <div id="panel-collapse" class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding-top: 5px;" >
+         <div id="panel-heading" class="panel-heading{{id}}">
+            <div  data-toggle="collapse" data-target="#{{angular('$index')}}content" style="cursor: pointer;color: #0996ae;font-weight: bold;font-size: 15px;"  ng-click="changeIcon($index)">
+                <i id="{{angular('$index')}}IconCollapse" class="pull-left glyphicon fa fa-sort-desc"  >
+                </i>
+                <span ng-bind="element.key"> </span>
+            </div>
+         </div>
+          
+        <div id="{{angular('$index')}}content" class="collapse collapse-content{{id}} col-xs-12 col-sm-12 col-md-12 col-lg-12" >
+              <span ng-bind-html="element.content"> </span>
+        </div>  
+      </div>
+
+     </div>
+  </div>
+</script>
+
+</div>
+
+{% endblock %}

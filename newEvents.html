@@ -1,0 +1,729 @@
+{% extends "layout.html" %}
+
+{% block page %}
+<div id="{{id}}newEventPage" ng-controller="{{id}}parentCtrl">
+	<div id="{{id}}ErrMessages" class="alert alert-danger" ng-hide="errorCount==0">
+    <i class="bsi-error-msg-icon glyphicons circle_exclamation_mark"></i>
+    <span class="bsi-error-msg-text"></span>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-9">
+         <form name="formE"   confirmonexit >
+      <div class="form-horizontal"> 
+        <div class="form-group ng-scope">  
+            <label class="col-sm-3 control-label">Matter<span class="bsi-required">*</span></label>  
+            <div class="col-sm-6">
+                <div class="dropdown form-control new-event-matter min-width-lg" style="width: 100%;">
+                    <a class="dropdown-toggle min-width-lg matterNameCstmStyle" ng-click="openSearchMattersDropdown()" tabindex="-1" >
+                        <span class=" matterName" style="width: 96%; display: inline-block;">{% raw %} {{sharedData.newEvent.matterName}} {% endraw %}</span>   
+                        <span class="pull-right fa fa-caret-down" style="font-size: 15px; position:absolute"><b/></span>                     
+                    </a>
+                    <ul class="dropdown-menu" style="padding: 0; width:100%">
+                      <li>{{widget_at(0, tags='matterSearch')}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+          
+          {% for w in widgetsByTag("field") %}
+            {{widget(w, editorClass="col-sm-6", captionClass="col-sm-3")}}
+          {% endfor %}
+          <div class="form-group">
+            <label class="col-sm-3 control-label">&nbsp;</label>
+            <div class="col-sm-6">
+              {% for w in widgetsByTag("button") %}
+                {{widget(w,
+                  cssClass="col-sm-2 bsi-quick-button-class")}}
+              {% endfor %}
+            </div>
+          </div>
+        
+
+      </div>
+      </form>
+    </div>
+    <div class="col-sm-3">
+      {#This is where the calendar is.#}
+    </div>
+  </div>
+  {% if widgetsByTag("action") %}
+    <div class="row">
+      <div class="col-sm-12 "><hr class="bsi-hr"/>
+        </div>
+      </div>
+    <div class="row">
+      {% for w in widgetsByTag("action") %}
+        <div class="pull-right">{{widget(w)}}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {{widget_at(0, tags='warn')}}
+</div>
+{% endblock %}
+
+{% block script %}
+	
+  var validationClass = "validation-glow";
+  var inputFocusedClass = "input-focused";
+    
+	/*
+   * Display an error message in the error message area.
+   */
+  function displayErrMessage(msg) {
+      //$("#{{id}}ErrMessages").css("display", "block");
+      $("#{{id}}ErrMessages").find("span").text(msg);
+  }
+  
+  /*
+   * Clear all error indicators.
+   */
+  function clearErrors() {
+      //angular.element("#{{id}}ErrMessages").css("display", "none");
+      angular.element("#{{id}}ErrMessages").find("span").text("&nbsp;");
+      
+      angular.element(".new-event-matter").removeClass(validationClass);
+      angular.element("input[ng-model*='eventTitle']").removeClass("validation-glow");
+      //angular.element(".new-event-category .select2-container").removeClass(validationClass);
+      //angular.element("textarea[ng-model*='newEvent.notes']").removeClass("validation-glow");
+      angular.element(".startDateClass").removeClass(validationClass);
+      angular.element(".endDateClass").removeClass(validationClass);
+      angular.element(".startTimeClass").removeClass(validationClass);
+      angular.element(".endTimeClass").removeClass(validationClass);
+      angular.element(".attClass > div > div.select2-container").removeClass(validationClass);
+      //angular.element(".locClass > div > div.select2-container").removeClass(validationClass);
+  }
+  
+  angular.module('{{id}}app', ['ngRoute', 'ngResource'])
+  
+  .value('{{dataset[0].name}}dataUrl', '{{dataset[0]._url}}/:recordId')
+  .factory('{{dataset[0].name}}Records', function($resource, {{dataset[0].name}}dataUrl) {
+    return $resource({{dataset[0].name}}dataUrl);
+  })
+  
+  .value('{{dataset[1].name}}dataUrl', '{{dataset[1]._url}}/:recordId')
+  .factory('{{dataset[1].name}}Records', function($resource, {{dataset[1].name}}dataUrl) {
+    return $resource({{dataset[1].name}}dataUrl);
+  })
+  
+  .value('{{dataset[2].name}}dataUrl', '{{dataset[2]._url}}/:recordId')
+  .factory('{{dataset[2].name}}Records', function($resource, {{dataset[2].name}}dataUrl) {
+    return $resource({{dataset[2].name}}dataUrl, null, {'saveAll':{method:'POST', isArray:true}});
+  })
+  
+  .value('{{dataset[3].name}}dataUrl', '{{dataset[3]._url}}/:recordId')
+  .factory('{{dataset[3].name}}Records', function($resource, {{dataset[3].name}}dataUrl) {
+    return $resource({{dataset[3].name}}dataUrl);
+  })
+  
+  .value('{{dataset[4].name}}dataUrl', '{{dataset[4]._url}}/:recordId')
+  .factory('{{dataset[4].name}}Records', function($resource, {{dataset[4].name}}dataUrl) {
+    return $resource({{dataset[4].name}}dataUrl);
+  })
+  
+  .value('{{dataset[5].name}}dataUrl', '{{dataset[5]._url}}/:recordId')
+  .factory('{{dataset[5].name}}Records', function($resource, {{dataset[5].name}}dataUrl) {
+    return $resource({{dataset[5].name}}dataUrl);
+  })
+  
+  .value('{{dataset[6].name}}dataUrl', '{{dataset[6]._url}}/:recordId')
+  .factory('{{dataset[6].name}}Records', function($resource, {{dataset[6].name}}dataUrl) {
+    return $resource({{dataset[6].name}}dataUrl);
+  })
+
+  .controller('{{id}}parentCtrl',['$scope','$rootScope','{{dataset[0].name}}Records', '{{dataset[1].name}}Records',
+      '{{dataset[2].name}}Records','{{dataset[3].name}}Records','{{dataset[4].name}}Records','{{dataset[5].name}}Records',
+      '{{dataset[6].name}}Records', '$timeout', function ($scope,$rootScope, {{dataset[0].name}}Records, 
+      {{dataset[1].name}}Records,{{dataset[2].name}}Records,{{dataset[3].name}}Records,{{dataset[4].name}}Records,
+      {{dataset[5].name}}Records,{{dataset[6].name}}Records, $timeout) {
+
+    {# 
+      {{dataset[0].name}}Records -> datasetContact
+      {{dataset[1].name}}Records -> datasetAppointment
+      {{dataset[2].name}}Records -> datasetInvitees
+      {{dataset[3].name}}Records -> datasetAvailability
+      {{dataset[4].name}}Records -> datasetMatter
+      {{dataset[5].name}}Records -> datasetMatterPlayer
+      {{dataset[6].name}}Records -> datasetUsers
+    #}
+      
+    var calEventFieldsMap = ["start", "end", "title"];
+    var bclEventFieldsMap = ["startDate", "endDate", "subject"];
+
+    if (!$rootScope.sharedData.dataInitialized) {
+        $rootScope.sharedData.data = {
+          selected: '',
+          bindFullcalendar: false,
+          calendar: '',
+          calOptions: '',
+          multiselect: {{dataset[0].name}}Records.query(),
+          dropdown: {{dataset[2].name}}Records.query(),
+          allAttendees: {{dataset[0].name}}Records.query(),
+          allEvents: {{dataset[3].name}}Records.query(),
+          executeTimeStartUpdate: true,
+          executeTimeEndUpdate: true,
+          start_date: $.datepicker.formatDate('{{'mm/dd/yy'}}', new Date()),
+          start_time: getTime(new Date()),
+          end_date: $.datepicker.formatDate('{{'mm/dd/yy'}}', new Date()),
+          end_time: getTime(addMinutes(new Date(),30)),
+          showRecurrenceAlert: false,
+          attendees: [],
+          recurrenceDayOfWeek: '',
+          DaysOfWeek: ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+          recurrenceDayOfMonth: '',
+          recurrenceMonth: '',
+          months: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ],
+          recurrenceUntilDate: '',
+          recurrence: {option:'onTimeEvent',range:{type:'',value:''}},
+          matterName: '',
+          reminder: false,
+          reminderMinutes: 0
+        };
+
+        $rootScope.sharedData.newEvent = {
+        	_id: '',
+          allDay: false,
+          calendarEvent_id: 0,
+          endDate: new Date(),
+          eventCategory_cd: '',
+          eventID: '',
+          eventTitle: '',
+          locationUUID: '',
+          matterNumber_id: '',
+          attendees: '',
+          notes: '',
+          priority: 2,
+          private: false,
+          recurrence: '',
+          recurrenceParentUUID: '',
+          reminder: false,
+          reminderDate: '',
+          reminderMinutes: 0,
+          startDate: new Date(),
+          inviteesUUID: []
+        };
+    }
+
+$scope.eventInitial = angular.copy($rootScope.sharedData.newEvent);//we need to have a copy
+
+
+      
+    $rootScope.sharedData.dataInitialized = true;
+    $rootScope.sharedData.showInputDate = true;
+    $rootScope.sharedData.showInputTime = true;
+    $(function(){
+      angular.element('.date-picker').click(function (e) {
+        angular.element('.datepicker').css('z-index','');
+      });
+      
+    });
+    
+    {% if request.args.matterNumber_id %}
+       $rootScope.sharedData.newEvent.matterNumber_id = '{{request.args.matterNumber_id}}';
+       //this is because at this moment the select is not complete loaded
+       {{dataset[4].name}}Records.query({query:JSON.stringify({$eq: {matterNumber_id: $rootScope.sharedData.newEvent.matterNumber_id}})}, function(matter){
+          if(matter.length>0){
+          	$rootScope.sharedData.newEvent.matterName=matter[0].matterName;
+            $rootScope.sharedData.newEvent.matterNumber_id = matter[0].matterNumber_id;
+            $rootScope.sharedData.matter = matter[0];
+            angular.element(".matterName").removeClass('placeholder');
+          } 
+       });
+    {% else %}
+    	resetMatter();
+    {% endif %}
+
+    {% for w in widgetsByTag("matterSearch") %}
+        $scope.$watch("{{w.bind}}", function(newValue, oldValue){
+        	setMatter(newValue);
+        });    
+    {% endfor %}
+    
+    var userEmail = $rootScope._user.email;
+    {{dataset[0].name}}Records.query({query:JSON.stringify({$eq: {emailAddress : userEmail}})}, function(attendee){			
+      if(attendee.length>0){
+      	setTimeout(function() {
+          //$rootScope.sharedData.data.attendees=[attendee[0]._id];
+          angular.element(".attClass div select").val(attendee[0]._id).trigger("change");
+        }, 1000);
+      }
+    });
+    
+    function resetMatter(){
+        //$scope.matter = {};
+        $rootScope.sharedData.newEvent.matterName = "Select Matter";
+        $rootScope.sharedData.newEvent.matterNumber_id = "";
+        angular.element(".matterName").addClass('placeholder');
+    }
+    
+    function setMatter(matter){
+        if(matter && matter._id){
+            $rootScope.sharedData.newEvent.matterNumber_id = matter.matterNumber_id;
+            $rootScope.sharedData.newEvent.matterName = matter.matterName;
+            angular.element(".new-event-matter").removeClass(validationClass);
+            angular.element(".matterName").removeClass('placeholder');
+            if($scope.errorCount>0){
+              $scope.errorCount--; 
+            }
+            angular.element("input[ng-model*='eventTitle']").focus();
+            filterAttendees(matter.matterNumber_id);
+        }else{
+            resetMatter();            
+        }
+    }
+
+    function filterAttendees(matterNumber_id){
+
+      //Getting the Matter Players for this Matter
+      {{dataset[5].name}}Records.query({query:JSON.stringify({$eq: {matterNumber_id: matterNumber_id}})}, function(players){
+        if(players.length > 0){
+          var plysEids = [];
+          angular.forEach(players,function(value,key){
+            plysEids.push(value.entity_eid);
+          });
+
+          //Getting users to match
+          {{dataset[6].name}}Records.query({query:JSON.stringify({$in: {suiteEntity_eid: plysEids}})}, function(users){
+            if(users.length > 0){
+              var usrEmails = [];
+              angular.forEach(users,function(value,key){
+                usrEmails.push(value.emailAddress);
+              });
+
+              //Getting attendees
+              {{dataset[0].name}}Records.query({query:JSON.stringify({$in: {emailAddress: usrEmails}})}, function(atts){
+                if(atts.length > 0){
+                  var reset = true;
+                  for(var i=0, len=atts.length; i<len; i++){
+                    {% for w in widgetsByTag("attendees") %}
+
+                      if(reset){
+                        $("#{{w.id}}MultiSelect").empty();
+                        reset = false;
+                      }
+                      
+                      var val = atts[i].{{w.customJson.val or "val"}};
+                      var value = atts[i].{{w.customJson.value or "value"}};
+                      {% if w.customJson.image %}
+                        var imageUrl = atts[i].{{w.customJson.image or "image"}};
+                        //adding a default image
+                        if(imageUrl==undefined)
+                          imageUrl = "http://www.gravatar.com/avatar/00000000000000000000000000000000?s=50&d=mm";
+                        $("#{{w.id}}MultiSelect").append('<option value="' + val + '" image="' + imageUrl + '">' + value + '</option>');
+                          
+                      {% else %}
+                        $("#{{w.id}}MultiSelect").append('<option value="' + val + '">' + value + '</option>');
+                      {% endif %}
+                    {% endfor %}
+                  }
+                }
+              });
+            }
+          });
+        }
+
+      });
+    }
+    
+    if ($scope.data === undefined) {
+    	$scope.data = {};
+    }
+    
+    function addMinutes(date, minutes) {
+    	return new Date(date.getTime() + minutes*60000);
+		}
+      
+    function getTime(d){
+      var min = "00";
+      var incHour = false;
+      if(d.getMinutes() <= 30){
+      	min = "30";
+      }else {
+      	incHour = true; 
+      }
+      var hour = incHour? d.getHours() + 1 : d.getHours();
+      
+      return (hour < 10?"0":"") + (hour>12?hour-12:hour) +":"+ min +" "+ (hour>=12?'PM':'AM');
+    }
+    
+    function getFormattedTime(d){
+    	var min = d.getMinutes();
+      min = min<10? '0'+min:min;
+      var hour = d.getHours()>12?d.getHours()-12:d.getHours();
+      var ampm = d.getHours()>=12?"PM":"AM";
+      hour = hour<10? '0'+hour:hour;
+      return hour+':'+min+' '+ampm;
+    }
+    
+    $scope.errorCount = 0;
+        
+    /*
+    * Validate all data on the New Event page that is required for creation of event.
+    */
+    $scope.allValid = function() {
+      
+      var retVal = true;
+      $scope.errorCount = 0;
+      $scope.noteErrorDiscounted=false;
+    	$scope.titleErrorDiscounted=false;
+      var msg = "";
+
+      if ($rootScope.sharedData.newEvent.matterNumber_id === undefined || $rootScope.sharedData.newEvent.matterNumber_id === "") {
+          //displayErrMessage("Selecting a matter is mandatory.  Please select a matter for this event.");
+          msg = "Selecting a matter is mandatory.  Please select a matter for this event.";
+          angular.element(".new-event-matter").removeClass(inputFocusedClass);
+          angular.element(".new-event-matter").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      if ($rootScope.sharedData.newEvent.eventTitle === undefined || $rootScope.sharedData.newEvent.eventTitle === "") {
+          msg = "Event Title is mandatory.  Please enter a title for this event.";
+          angular.element("input[ng-model*='eventTitle']").removeClass(inputFocusedClass);
+          angular.element("input[ng-model*='eventTitle']").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      /*if ($rootScope.sharedData.newEvent.notes === undefined || $rootScope.sharedData.newEvent.notes === "") {
+          msg = "Event Notes is mandatory.  Please enter a note for this event.";
+          angular.element("textarea[ng-model*='newEvent.notes']").removeClass(inputFocusedClass);
+          angular.element("textarea[ng-model*='newEvent.notes']").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      //DIAM-3188 Event Category is not mandatory as in suite 
+      if ($rootScope.sharedData.newEvent.eventCategory_cd === undefined || $rootScope.sharedData.newEvent.eventCategory_cd === "") {
+      		//displayErrMessage("Selecting a category is mandatory.  Please select a category for this event.");
+          msg = "Selecting a category is mandatory.  Please select a category for this event.";
+          angular.element(".new-event-category .select2-container").removeClass(inputFocusedClass);
+          angular.element(".new-event-category .select2-container").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }*/
+      
+      if ($rootScope.sharedData.data.start_date === undefined || $rootScope.sharedData.data.start_date === "") {
+      		//displayErrMessage("Selecting a start date is mandatory.  Please select a start date for this event.");
+          msg = "Selecting a start date is mandatory.  Please select a start date for this event.";
+          angular.element(".startDateClass").removeClass(inputFocusedClass);
+          angular.element(".startDateClass").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      if ($rootScope.sharedData.data.end_date === undefined || $rootScope.sharedData.data.end_date === "") {
+      		//displayErrMessage("Selecting an end date is mandatory.  Please select an end date for this event.");
+          msg = "Selecting an end date is mandatory.  Please select an end date for this event.";
+          angular.element(".endDateClass").removeClass(inputFocusedClass);
+          angular.element(".endDateClass").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      if ($rootScope.sharedData.data.start_time === undefined || $rootScope.sharedData.data.start_time === "") {
+        	//displayErrMessage("Selecting a start time is mandatory.  Please select a start time for this event.");
+          msg = "Selecting a start time is mandatory.  Please select a start time for this event.";
+          angular.element(".startTimeClass").removeClass(inputFocusedClass);
+          angular.element(".startTimeClass").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      if ($rootScope.sharedData.data.end_time === undefined || $rootScope.sharedData.data.end_time === "") {
+      		//displayErrMessage("Selecting an end time is mandatory.  Please select an end time for this event.");
+          msg = "Selecting an end time is mandatory.  Please select an end time for this event.";
+          angular.element(".endTimeClass").removeClass(inputFocusedClass);
+          angular.element(".endTimeClass").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      
+      if ($rootScope.sharedData.data.attendees === undefined || $rootScope.sharedData.data.attendees === "" || $rootScope.sharedData.data.attendees.length === 0) {
+      		//displayErrMessage("Selecting attendees is mandatory.  Please select attendees for this event.");
+          msg = "Selecting attendees is mandatory.  Please select attendees for this event.";
+          angular.element(".attClass > div > div.select2-container").removeClass(inputFocusedClass);
+          angular.element(".attClass > div > div.select2-container").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }
+      
+      /*if ($rootScope.sharedData.newEvent.locationUUID === undefined || $rootScope.sharedData.newEvent.locationUUID === "") {
+      		//displayErrMessage("Selecting a location is mandatory.  Please select location for this event.");
+          msg = "Selecting a location is mandatory.  Please select location for this event.";
+          angular.element(".locClass > div > div.select2-container").removeClass(inputFocusedClass);
+          angular.element(".locClass > div > div.select2-container").addClass(validationClass);
+          $scope.errorCount++;
+          retVal = false;
+      }*/
+      
+      if($scope.errorCount>0){
+      	if($scope.errorCount==1){
+        	displayErrMessage(msg);
+        }else{
+        	displayErrMessage("Please enter mandatory fields.");
+        }
+      }
+      
+      return retVal;
+  	}
+    
+    $scope.displayAvailabilityDialog = function() {
+        
+      clearErrors();
+      
+      if ($scope.allValid()) {
+          $rootScope.showModal({page:'avaPageDiag',size:'lg'});
+      }
+  	}
+    
+    $rootScope.sharedData.displayRecurrenceDialog = function() {
+        
+      clearErrors();
+      if ($scope.allValid()) {
+        $rootScope.sharedData.data.recurrenceDayOfWeek = $rootScope.sharedData.data.DaysOfWeek[$('.startDateClass').datepicker("getDate").getDay()];
+        $rootScope.sharedData.data.recurrenceDayOfMonth = $('.startDateClass').datepicker("getDate").getDate();
+        $rootScope.sharedData.data.recurrenceMonth = $rootScope.sharedData.data.months[$('.startDateClass').datepicker("getDate").getMonth()];
+        
+        $rootScope.showModal({page:'recPageDiag',size:'lg'});
+      }
+  	}
+    
+    $scope.displayReminderDialog = function() {
+        
+      clearErrors();
+      
+      if ($scope.allValid()) {
+      		$rootScope.showModal({page:'remPageDiag',size:'lg'});
+      }
+  	}
+    
+    $rootScope.sharedData.save = function() {
+       $rootScope.$broadcast("unsavedDataVerified","ss");
+         $scope.$broadcast("unsavedDataVerified","ss");
+        
+        if ($scope.allValid()) {
+          $rootScope.sharedData.data.stateSaveButton=true;
+          $rootScope.sharedData.newEvent.startDate = new Date($rootScope.sharedData.data.start_date + ' ' + $rootScope.sharedData.data.start_time);
+          $rootScope.sharedData.newEvent.endDate = new Date($rootScope.sharedData.data.end_date + ' ' + $rootScope.sharedData.data.end_time);
+        	$rootScope.sharedData.newEvent.matterNumber_id = parseInt($rootScope.sharedData.newEvent.matterNumber_id);
+          $rootScope.sharedData.newEvent.recurrence = JSON.stringify($rootScope.sharedData.data.recurrence);
+          $rootScope.sharedData.newEvent.attendees = $rootScope.sharedData.data.attendees;
+          $rootScope.sharedData.newEvent.reminder = $rootScope.sharedData.data.reminder;
+          $rootScope.sharedData.newEvent.reminderMinutes = $rootScope.sharedData.data.reminderMinutes;
+          /*
+          	TO DO: 
+            	-	reminderDate -> The actual date/time that the reminder will trigger.
+          */
+          var allAttendees = [];
+          $.each($rootScope.sharedData.newEvent.attendees, function(key, value){
+          	var attendee = {'attendeeUUID': value,'inviteDateSent':new Date()};
+            allAttendees.push(attendee);            
+          });
+          //var data = [];
+          //Saving the invitees first
+          {{dataset[2].name}}Records.saveAll(allAttendees, function(data){
+            $.each(data, function(key, value){
+            	$rootScope.sharedData.newEvent.inviteesUUID.push(value._id);
+            });
+            
+            //saving the appointment
+          	{{dataset[1].name}}Records.save($rootScope.sharedData.newEvent, function(data) {
+              $rootScope.gotoPage('e45d345e-1691-11e4-8b42-b2e9efb5be98?id='+data._id+'&matterNumber_id='+data.matterNumber_id+'&action=new');
+            });
+          });        
+          
+        }
+    };
+    
+    $scope.openSearchMattersDropdown = function(){
+        $timeout(function(){
+          {% for w in widgetsByTag("matterSearch") %}
+            $rootScope.$emit('openSearchDropdown{{w.id}}');
+          {% endfor %}
+        },2);    
+    }
+        
+    $scope.cancelNewEvent = function(){
+    	$rootScope.gotoPage('e45d345e-1691-11e4-8b42-b2e9efb5be98');
+    }
+       
+		//setting the increment of 30min for the timepickers
+    angular.element('.startTimeClass').timepicker({minuteStep: 30});      
+    angular.element('.endTimeClass').timepicker({minuteStep: 30});
+    
+    //watching when starDate changes to future date in order to change the endDate
+    $scope.$watch("sharedData.data.start_date", function (newValue, oldValue) {
+      if(moment(newValue).isAfter($rootScope.sharedData.data.end_date) || moment(newValue).isBefore($rootScope.sharedData.data.end_date)){
+        $timeout(function() {
+          $rootScope.sharedData.data.end_date = newValue;
+        }, 0);
+      }
+    });
+    
+    //watching when endDate changes to past date before endDate in order to avoid it making it same as startDate
+    $scope.$watch("sharedData.data.end_date", function (newValue, oldValue) {
+      if(moment(newValue).isBefore($rootScope.sharedData.data.start_date)){
+        $timeout(function() {
+          $rootScope.sharedData.data.end_date = $rootScope.sharedData.data.start_date;
+        }, 0);
+      }
+    });
+    
+    //watching when startTime changes to increment the endTime
+    $rootScope.$watch("sharedData.data['start_time']", function (newValue, oldValue) {
+      console.log('newValue: '+newValue);
+      var startDate = new Date($rootScope.sharedData.data.start_date + ' ' + newValue);
+      var endDate = new Date($rootScope.sharedData.data.end_date + ' ' + $rootScope.sharedData.data.end_time);
+      if(moment(startDate).isAfter(endDate) || moment(startDate).isBefore(endDate)){
+        $timeout(function() {
+          $rootScope.sharedData.data.end_time = getFormattedTime(addMinutes(startDate,30));
+        }, 0);
+      }
+    });
+        
+    /*
+    $('.startTimeClass').timepicker().on('changeTime.timepicker', function(e){	
+      console.log('newTime: '+e.time.value);
+      var startDate = new Date($rootScope.sharedData.data.start_date + ' ' + e.time.value);
+      var endDate = new Date($rootScope.sharedData.data.end_date + ' ' + $rootScope.sharedData.data.end_time);
+      if(moment(startDate).isAfter(endDate)){
+      	setTimeout(function() {
+          $scope.$apply(function(){
+            $rootScope.sharedData.data.end_time = getFormattedTime(addMinutes(startDate,30));
+          });  
+        }, 500);
+      }
+    });*/
+    
+    //watching when endTime changes
+    $scope.$watch("sharedData.data.end_time", function (newValue, oldValue) {
+      var startDate = new Date($rootScope.sharedData.data.start_date + ' ' + $rootScope.sharedData.data.start_time);
+      var endDate = new Date($rootScope.sharedData.data.end_date + ' ' + newValue);
+      if(moment(startDate).isAfter(endDate)){
+        $timeout(function() {
+          $rootScope.sharedData.data.end_time = getFormattedTime(addMinutes(startDate,30));
+        }, 0);
+      }
+    });
+   
+    angular.element('.locClass div select').select2()
+    .on("change", function(e) {
+      // mostly used event, fired to the original element when the value changes     
+      angular.element(".locClass > div > div.select2-container").removeClass(validationClass);      
+      angular.element('.locClass div a span.select2-chosen').css("color", "black");
+      if($rootScope.sharedData.newEvent.locationUUID=="" && $scope.errorCount>0){
+        $scope.$apply(function(){
+          $scope.errorCount--;
+        });
+      }
+      $rootScope.sharedData.newEvent.locationUUID = e.val;
+      if($scope.allValid()){angular.element("a[ng-click^=displayAvailabilityDialog]").addClass(inputFocusedClass);}
+    });
+    
+    angular.element('.attClass div select').select2({
+      formatResult: format,
+      escapeMarkup: function(m) { return m; }
+    })
+    .on("change", function(e) {
+      angular.element(".attClass > div > div.select2-container").removeClass(validationClass);
+      if($rootScope.sharedData.data.attendees=="" && $scope.errorCount>0){
+        $scope.$apply(function(){
+          $scope.errorCount--;
+        });
+      }
+      $rootScope.sharedData.data.attendees = e.val;
+    });
+    
+    //DIAM-3188 Event Category is not mandatory as in suite 
+    /*angular.element('.new-event-category div select').change(function() {
+      angular.element(".new-event-category .select2-container").removeClass(validationClass);
+      if($rootScope.sharedData.newEvent.eventCategory_cd=="" && $scope.errorCount>0){
+        $scope.$apply(function(){
+          $scope.errorCount--;
+        });
+      }
+      //$rootScope.sharedData.newEvent.eventCategory_cd = $(this).val();
+    });*/
+    
+    $scope.titleErrorDiscounted=false;
+    $(function(){
+    	angular.element("input[type=text][ng-model*='eventTitle']").keyup(function(){
+        var text = $(this).val();
+        if(text != undefined && text != ""){
+          angular.element("input[ng-model*='eventTitle']").removeClass(validationClass);
+          if($scope.titleErrorDiscounted==false && $scope.errorCount>0){
+          	$scope.$apply(function(){
+              $scope.errorCount--;
+              $scope.titleErrorDiscounted=true;
+            }); 
+          }
+          angular.element("#{{id}}newEventPage span[id*='TextPlaceholder']").hide();
+        }else{
+        	angular.element("#{{id}}updateEventPage span[id*='TextPlaceholder']").show();
+        }
+      });
+      /* DIAM-3356 The Event Category dropdown shouldn't have auto-focus after enter the Event title
+      .change(function(){
+      	var text = $(this).val();
+        if(text != undefined && text != ""){
+      		angular.element('.new-event-category select').select2('open');
+        }
+      }); */
+
+      angular.element('.new-event-category select').change(function(){
+      	angular.element('#{{id}}newEventPage textarea').focus();
+      });
+           
+      
+      {# For v1, side bar is minified system wise. No need to do it here.
+      //this is in order to collapse the left sidebar
+      $('.sidebar').addClass('minified');
+      #}
+
+      setTimeout(function() {
+      	//this is for the attendees multiselect icon for it to display options when clicking
+        angular.element('span.bsi-multiselect-icon').click(function(){
+          angular.element('.select2-container-multi div input').click();
+        });
+      }, 500);
+      
+      angular.element('#{{id}}newEventPage input[type=checkbox]').click(function(){
+        if(this.getAttribute('checked')){
+        	angular.element('.startTimeClass').timepicker("setTime","12:00 AM");
+          angular.element('.endTimeClass').timepicker("setTime","12:00 AM");
+          angular.element('.startTimeClassDRec').timepicker("setTime","12:00 AM");
+          angular.element('.endTimeClassDRec').timepicker("setTime","12:00 AM");
+          angular.element('.startTimeClassDRem').timepicker("setTime","12:00 AM");
+          angular.element('.endTimeClassDRem').timepicker("setTime","12:00 AM");
+          angular.element('.startTimeClass').prop('disabled', true);
+          angular.element('.endTimeClass').prop('disabled', true);
+          angular.element('.startTimeClassDRec').prop('disabled', true);
+          angular.element('.endTimeClassDRec').prop('disabled', true);
+          angular.element('.startTimeClassDRem').prop('disabled', true);
+          angular.element('.endTimeClassDRem').prop('disabled', true);
+          angular.element('.startTimeClassD').prop('disabled', true);
+          angular.element('.endTimeClassD').prop('disabled', true);
+        }else{
+        	angular.element('.startTimeClass').timepicker("setTime",getTime(new Date()));
+          angular.element('.endTimeClass').timepicker("setTime",getTime(addMinutes(new Date(),20)));
+          angular.element('.startTimeClassDRec').timepicker("setTime",getTime(new Date()));
+          angular.element('.endTimeClassDRec').timepicker("setTime",getTime(addMinutes(new Date(),20)));
+          angular.element('.startTimeClassDRem').timepicker("setTime",getTime(new Date()));
+          angular.element('.endTimeClassDRem').timepicker("setTime",getTime(addMinutes(new Date(),20)));
+          angular.element('.startTimeClass').prop('disabled', false);
+          angular.element('.endTimeClass').prop('disabled', false);
+          angular.element('.startTimeClassDRec').prop('disabled', false);
+          angular.element('.endTimeClassDRec').prop('disabled', false);
+          angular.element('.startTimeClassDRem').prop('disabled', false);
+          angular.element('.endTimeClassDRem').prop('disabled', false);
+          angular.element('.startTimeClassD').prop('disabled', false);
+          angular.element('.endTimeClassD').prop('disabled', false);
+        }
+      });
+    });
+    
+    function format(optionObject, container) {
+      if (!optionObject.url) return optionObject.text; // optgroup
+      return "<img class='flag' src='images/flags/" + optionObject.id.toLowerCase() + ".png'/>" + optionObject.text;
+    }
+
+  }]);
+  
+  addApp('{{id}}app');
+{% endblock %}

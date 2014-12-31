@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="myModule">
+	<head>
+		<title></title>
+	</head>
+	<body>
+	
+	<div ng-controller="ControllerZero">
+    <input ng-model="message" >
+    <button ng-click="handleClick(message);">BROADCAST</button>
+	</div>
+
+	<div ng-controller="ControllerOne">
+    <input ng-model="message" >
+	</div>
+
+	<div ng-controller="ControllerTwo">
+    <input ng-model="message" >
+	</div>
+
+    <my-component ng-model="message"></my-component>
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="factory_directive_on.js"></script>
+
+
+	</body>
+</html>

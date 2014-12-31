@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>dinamic fields</title>
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  <script src="dinamicFields.js"></script>
+</head>
+<body ng-app="myApp">
+
+<div ng-controller="parentCtrl" class="ng-scope">
+      
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td>
+          <select ng-model="selectedQuery" 
+            ng-options="q.name for q in queryList" >
+            <option title="---Select Query---" value="">---Select Query---</option>
+          </select>
+
+        </td>
+      </tr>
+      </table>
+      <li ng-repeat="param in parameters">
+        <div ng-controller="ShildCtrl" class="ng-scope">
+        {{param}}: <input type="text" ng-model="models[param] " />field_{{$index}}
+        </div>
+
+      </li>
+      
+
+    
+        <pre>{{models | json}}</pre>
+
+
+<div>
+
+</body>
+</html>

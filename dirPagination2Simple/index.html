@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html ng-app="todos">
+
+  <head>
+    <link data-require="bootstrap-css@2.3.2" data-semver="2.3.2" rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+    <script data-require="angular.js@1.1.5" data-semver="1.1.5" src="http://code.angularjs.org/1.1.5/angular.min.js"></script>
+    <script src="http://code.angularjs.org/1.0.3/angular-resource.min.js"></script>
+    <script data-require="angular-ui-bootstrap@0.3.0" data-semver="0.3.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.min.js"></script>
+    <script type="text/javascript" src="lodash.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="service.js"></script>
+    <script src="script.js"></script>
+    
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    
+    <link href="../bootstrap3.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css" rel="stylesheet">
+    <link href="font-awesome.css" rel="stylesheet">
+        
+    <style type="text/css">
+    clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+ 
+   .clearfix {
+    display: inline-block;
+    }
+
+
+    .pagination ul>.active>a, .pagination ul>.active>span{
+color: #F9FBFC;
+cursor: default;
+}
+
+
+.pagination ul>li>a:hover, .pagination ul>.active>a, .pagination ul>.active>span{
+ background-color: #20A7D7;
+}
+
+
+a {
+color: #8B8B8B;
+text-decoration: none;
+}
+    </style>
+  </head>
+
+  <body ng-controller="TodoController" ng-init="init()" style="padding-left: 40px; padding-right: 40px">
+     <h1>  FANCY TABLE FOR ACCRUALS </h1>
+      <h4>Number of records : {{dataAccruals.elements.length}} </h4>
+    <div class="row">
+       <div class="col-lg-1">
+                 <input type="number" min="1" max="100" class="form-control" ng-model="itemsPerPage" style="height: 30px">
+       </div>
+        <div class="col-lg-2">
+          <label for="search">Records per page</label>
+        </div>
+       <div class="col-lg-2 pull-right">
+         <div >    
+          <dropdown-multiselect pre-selected="member.roles" model="selected_items" options="tabla.columnas"></dropdown-multiselect>
+          <!--<pre>selected roles = {{selected_items | json}}</pre>-->
+          </div>  
+      </div> 
+    </div>
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <table class="table">
+           <tr style="background: rgba(211, 211, 211, 0.65);"> <!-- CREATE A HEADER OF TABLE-->
+             <th class="{{columna.nameInternal}}" ng-repeat="columna in tabla.columnas" ng-show="columna.show==true">{{columna.name}}
+             &nbsp;<a ng-click="sort_by('{{columna.nameInternal}}')"><i class="icon-sort"></i></a>
+             </th>
+           </tr>
+           <!-- CREATE A BODY OF TABLE -->
+           <tr  ng-repeat="element in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+            <td ng-show="tabla.columnas[0].show==true"><input type="checkbox" ng-model="element.selected"></td>
+            <td ng-show="tabla.columnas[1].show==true">
+            <span style="color: #20A7D7; font-weight: bold;" ng-bind="element.accrualName">  </span><br>
+            <span style="font-style: italic;">Created on </span><span ng-bind="element.createdOn"></span><br>
+            <span style="font-style: italic;">By </span><span ng-bind="element.byPerson"></span><br>
+            <span style="font-style: italic;" ng-bind="element.matterName"></span>
+            </td>
+            <td ng-show="tabla.columnas[2].show==true">{{element.legalSection}}</td>
+            <td ng-show="tabla.columnas[3].show==true">{{element.matterType}}</td>
+            <td ng-show="tabla.columnas[4].show==true">{{element.accruedAmount}}</td>
+            <td ng-show="tabla.columnas[5].show==true"> {{element.respondedPercent}}</td>
+            <td ng-show="tabla.columnas[6].show==true">{{element.dueDate}}</td>
+            <td ng-show="tabla.columnas[7].show==true">{{element.action}}</td>
+          </tr>
+         </table>
+      </div>
+    </div>
+    <div class="row">
+     <div class="col-lg-4 pull-right pagination">
+                            <ul>
+                                <li ng-class="{disabled: currentPage == 0}">
+                                    <a href ng-click="">&nbsp;&nbsp;</a>
+                                </li>
+                                <li ng-repeat="n in range(pagedItems.length)"
+                                    ng-class="{active: n == currentPage}"
+                                ng-click="setPage()">
+                                    <a href ng-bind="n + 1">1</a>
+                                </li>
+                                <li ng-class="{disabled: currentPage == pagedItems.length - 1}">
+                                    <a href ng-click="nextPage()">Next ---></a>
+                                </li>
+                            </ul>
+    </div>
+    </div>
+  
+  </body>
+
+</html>
