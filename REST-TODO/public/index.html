@@ -73,7 +73,7 @@
 </script>
 </head>
 <!-- SET THE CONTROLLER -->
-<body ng-controller="mainController">
+<body ng-controller="mainController" ng-init="init()">
 
 	<div class="container">
 	<!-- HEADER AND TODO COUNT -->
@@ -130,11 +130,11 @@
 					  <button type="submit" class="btn btn-primary" ng-click="createTodo()">Add Task</button>
 					</div>
 				     <div class="col-sm-2">
-				       <button  class="btn btn-danger" ng-click="createTodo()">Clear Form</button>
+				       <button  class="btn btn-danger" ng-click="init()">Clear Form</button>
 				     </div>
 
 				     <div class="col-sm-2">
-				       <button  class="btn btn-warning" ng-click="createTodo()">Update</button>
+				       <button  class="btn btn-warning" ng-click="updateTodo()">Update</button>
 				     </div>
 				     
 				   </div>

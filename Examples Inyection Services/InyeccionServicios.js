@@ -58,3 +58,27 @@ myModule.controller('SubChildCtrl1', function($scope,CalculatorService) {
     
 });
 
+
+myModule.controller('validatePasswordCtrl', function($scope) {
+   
+   $scope.init= function(){
+	   $scope.password1 ="";
+	   $scope.password2="";
+	   $scope.message ="no match";
+	   $scope.show=false;
+   };
+   
+   $scope.$watch('password2+password1',function(newValue,oldValue){
+	   if(newValue!=oldValue){
+		   if($scope.password1.toString() != $scope.password2.toString()){
+			   $scope.message= "no match";
+			   $scope.show=true;
+		   }else{
+			   $scope.message= "great!! its match";
+			   $scope.show=true;
+		   }
+	   }
+   });
+    
+});
+

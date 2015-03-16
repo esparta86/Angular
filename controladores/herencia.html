@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html ng-app="herencia">
+	<head>
+		<title></title>
+	</head>
+	<body>
+	<div ng-controller="ParentCtrl">
+		<span ng-bind="attributeA"></span>
+		<br>
+		<div ng-controller="childCtrl">
+		   <span ng-bind="attributeB" ></span><br>
+		   <button ng-click="methodB()">Click here</button>
+		</div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="herencia.js"></script>
+
+	</body>
+</html>

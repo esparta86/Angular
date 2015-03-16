@@ -53,7 +53,46 @@ module.exports = function(app) {
 		});
 	});
 
-	// application -------------------------------------------------------------
+	//Update
+    app.put('/api/todos/:todo_id',function(req,res){
+         /*
+			Todo.findById(req.params.todo_id,function(err,todo){
+				todo.text=req.body.text;
+				todo.priority= req.body.priority;
+                
+				todo.save(function(err){
+					if(err)
+						 res.send(500,err.message);
+					getTodos(res);
+				});
+
+
+			});*/
+       var todoa=new Todo({
+            text:req.body.text,
+         	priority:req.body.priority,
+         	startDate:req.body.startDate
+       });
+
+       var todoData= todoa.toObject();
+       delete todoData._id;
+
+
+        Todo.update({
+        	_id:req.params.todo_id
+        },
+         todoData,
+         {
+         	upsert:true
+         },function(err,todo){
+         	if (err)
+				res.send(err);
+        });
+			
+      
+    });
+
+  // application ---------------------------------
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 	});

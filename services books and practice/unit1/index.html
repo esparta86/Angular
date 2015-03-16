@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="angularJSModule">
+	<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+    <script src="controller.js"></script>
+		<title> Services </title>
+
+	</head>
+	<body>
+	<div ng-controller="parentCtrl" ng-init="initParentCtrl()">
+	  <div>
+	  <input type="text" name="attributeparent" ng-model="parentattribute" ng-bind="parentattribute">
+	  </div>
+	  <br>
+	  <br>
+	  <div ng-controller="childCtrl" ng-init="initChildCtrl()">
+	  	<input type="text" name="attributechild" ng-model="childattribute" ng-bind="childattribute">
+	  </div>
+		
+    </div>
+
+    
+
+	</body>
+</html>

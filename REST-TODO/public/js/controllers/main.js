@@ -1,15 +1,20 @@
 angular.module('todoController', [])
 
+
     // inject the Todo service factory into our controller
     .controller('mainController', ['$scope','$http','Todos','dialogService','$log',
      function($scope, $http, Todos,dialogService,$log) {
+
+
+        $scope.init = function(){
+
         $scope.formData = {
+            _id:0,
             text:"",
             startDate:"",
             endDate:"",
             priority:0
-
-        };
+           };
         $scope.loading = true;
 
         $scope.idSelectedVote=null;
@@ -17,12 +22,24 @@ angular.module('todoController', [])
         // GET =====================================================================
         // when landing on the page, get all todos and show them
         // use the service to get all the todos
-        Todos.get()
+        /*Todos.get()
             .success(function(data) {
                 $scope.todos = data;
                 $scope.loading = false;
-            });
+            });*/
+           
+        Todos.get().then(function(data){
+           $scope.todos=data;
+           $scope.loading=false;
+        });
 
+
+
+        
+
+        }
+
+        
         // CREATE ==================================================================
         // when submitting the add form, send the text to the node API
         $scope.createTodo = function() {
@@ -40,15 +57,44 @@ angular.module('todoController', [])
                 $scope.loading = true;
 
                 // call the create function from our service (returns a promise object)
-                Todos.create($scope.formData)
+              // Todos.create($scope.formData)
 
                     // if successful creation, call our get function to get all the new todos
-                    .success(function(data) {
+                   //.success(function(data) {
+                   //     $scope.loading = false;
+                   //     $scope.formData = {}; // clear the form so our user is ready to enter another
+                   //     $scope.todos = data; // assign our new list of todos
+                  //  });
+
+                Todos.create($scope.formData).then(function(data){
                         $scope.loading = false;
                         $scope.formData = {}; // clear the form so our user is ready to enter another
-                        $scope.todos = data; // assign our new list of todos
-                    });
+                        $scope.todos = data;
+                });
+
+
             }
+        };
+
+        //when submitting a update
+        $scope.updateTodo = function(){
+            if ($scope.formData.text != undefined && $scope.formData.priority != undefined) {
+                $scope.loading = true;
+                Todos.update($scope.formData._id)
+                  .success(function(data){
+
+                    
+                    $scope.formData={};
+                    
+                       Todos.get().then(function(data){
+                           $scope.todos=data;
+                           $scope.loading=false;
+                        });
+                  });
+
+
+            }
+
         };
 
         $scope.confirmClick = function(){

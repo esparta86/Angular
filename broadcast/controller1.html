@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<body ng-app="mymodule">
+
+
+<br>
+parent to child
+<br>
+
+<div  ng-controller="FirstCtrl">
+ <input ng-model="message">
+    <button ng-click="handleClick(message);">LOG</button>
+
+ 	<div  ng-controller="SecondCtrl">
+    
+	</div>
+</div>
+<br>
+CONTROLADORES not related
+<br>
+<div ng-controller="FirstCtrlNorelationShip">
+
+First Name controlador 1: <input ng-model="person.firstName" name="person.firstName"><br>
+Last Name  controlador 2: <input ng-model="person.lastName" name="person.lastName"><br>
+<input ng-model="message"><button ng-click="handleClick(message,person.firstName,person.lastName);">LOG</button>
+   
+</div>
+
+
+
+ <div  ng-controller="SecondCtrlNorelationShip">
+  Informacion de controlador 1: {{information}}
+ </div>
+ 
+ <div ng-controller="thirdController">
+<form name="myForm" >
+    Email: <input type="email" name="input" ng-model="text" required>
+    <span class="error" ng-show="myForm.input.$error.required">
+      Required!</span>
+    <span class="error" ng-show="myForm.input.$error.email">
+      Not valid email!</span>
+    <tt>text = {{text}}</tt><br/>
+    <tt>myForm.input.$valid = {{myForm.input.$valid}}</tt><br/>
+    <tt>myForm.input.$error = {{myForm.input.$error}}</tt><br/>
+    <tt>myForm.$valid = {{myForm.$valid}}</tt><br/>
+    <tt>myForm.$error.required = {{!!myForm.$error.required}}</tt><br/>
+    <tt>myForm.$error.email = {{!!myForm.$error.email}}</tt><br/>
+  </form> 
+ </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>

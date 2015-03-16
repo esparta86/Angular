@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Drop down</title>
+  <link rel="stylesheet" href="angular-multi-select.css">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+  <!--<script type="text/javascript" src="angular-multi-select.js"></script>-->
+  <script type="text/javascript" src="multiselectCheckboxCtrl.js"></script>
+  <script data-require="angular-ui-bootstrap@0.3.0" data-semver="0.3.0" src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.3.0.min.js"></script>
+   <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+   <link href="http://netdna.bootstrapcdn.com/font-awesome/2.0/css/font-awesome.css" rel="stylesheet">
+   <link href="../bootstrap3.2/css/bootstrap.min.css" rel="stylesheet">
+   
+  
+</head>
+<body>
+
+  <div ng-app="grid-select">
+    <div ng-controller="gridSelectCtrl">
+      <div class="row">
+          <div class="col-lg-5">
+                <div     
+            grid-select
+            column-names="columnName"
+            string-test="textPrueba"
+            input-model="modernWebBrowsers"
+            input-model2="stafsData"
+            button-label="icon name"
+            item-label="icon name maker"
+            tick-property="ticked"
+            tick-property-grid ="selected"
+            selection-mode="single"
+              >
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+</body>
+</html>

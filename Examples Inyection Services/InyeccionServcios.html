@@ -33,6 +33,17 @@ BROTHER CONTROLER
     <button ng-click="doGetAnswer()"> Get Answer Bro</button>
     		R// {{answerControl}}
     </div>
+	
+	
+	<div ng-controller="validatePasswordCtrl"  ng-init="init()">
+	   password 1 :<input type="password" name="confirmPassword1" ng-model="password1" ng-bind="password1" >
+	   <br>
+	   <br>
+	   password 2 :<input type="password" name="confirmPassword2" ng-model="password2"  ng-bind="password2">
+	   <br>
+	   <br>
+	   <span ng-show="show" ng-bind="message"></span>
+	</div>
 
 
 
