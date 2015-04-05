@@ -83,10 +83,10 @@ text-decoration: none;
            <tr  ng-repeat="element in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
             <td ng-show="tabla.columnas[0].show==true"><input type="checkbox" ng-model="element.selected"></td>
             <td ng-show="tabla.columnas[1].show==true">
-            <span style="color: #20A7D7; font-weight: bold;" ng-bind="element.accrualName">  </span><br>
-            <span style="font-style: italic;">Created on </span><span ng-bind="element.createdOn"></span><br>
-            <span style="font-style: italic;">By </span><span ng-bind="element.byPerson"></span><br>
-            <span style="font-style: italic;" ng-bind="element.matterName"></span>
+              <span style="color: #20A7D7; font-weight: bold;" ng-bind="element.accrualName">  </span><br>
+              <span style="font-style: italic;">Created on </span><span ng-bind="element.createdOn"></span><br>
+              <span style="font-style: italic;">By </span><span ng-bind="element.byPerson"></span><br>
+              <span style="font-style: italic;" ng-bind="element.matterName"></span>
             </td>
             <td ng-show="tabla.columnas[2].show==true">{{element.legalSection}}</td>
             <td ng-show="tabla.columnas[3].show==true">{{element.matterType}}</td>
